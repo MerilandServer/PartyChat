@@ -99,14 +99,12 @@ public class PartyManagement {
         pendingInvites.put(receiver, sender);
         Player receiverPlayer = Bukkit.getPlayer(receiver);
         Player senderPlayer = Bukkit.getPlayer(sender);
-        receiverPlayer.sendMessage(PartyChat.MESSAGE_PREFIX + "You have received a party invite from " + ChatColor.GOLD
-                + senderPlayer.getName() + ".");
-        receiverPlayer.sendMessage(
-                PartyChat.MESSAGE_PREFIX + "To join, type /party accept. To deny, type /party deny.");
-        senderPlayer.sendMessage(PartyChat.MESSAGE_PREFIX + "Invite sent!");
+        ChatUtils.sendInfoMessage(receiverPlayer, "&6" + senderPlayer.getDisplayName() + "&9 te ha invitado a una party.");
+        ChatUtils.sendInfoMessage(receiverPlayer, "Únete con &a/party accept&9. Cancela con &a/party deny");
+        ChatUtils.sendInfoMessage(senderPlayer, "Invitación enviada correctamente");
         partyChat.logger.info(
                 senderPlayer.getName() + " sent an invite to " + receiverPlayer.getName() + " for party " + partyID);
-        sendPartyMessage(senderPlayer.getName() + " has sent an invite to " + receiverPlayer.getName() + ".", partyID);
+        sendPartyMessage(senderPlayer.getDisplayName() + " ha invitado a " + receiverPlayer.getDisplayName() + ".", partyID);
     }
 
     /**
@@ -116,16 +114,15 @@ public class PartyManagement {
      * @param answer Player's response to being invited.
      */
     public void removeInvite(UUID pendingPlayer, boolean answer) {
-        String player = Bukkit.getPlayer(pendingPlayer).getName();
+        String player = Bukkit.getPlayer(pendingPlayer).getDisplayName();
         String partyID = lookupParty(pendingInvites.get(pendingPlayer));
         if (answer) {
             addPlayerToParty(pendingPlayer, partyID);
-            sendPartyMessage(player + " has joined the party!", partyID);
+            sendPartyMessage(player + " se ha unido a la party", partyID);
             partyChat.logger.info(player + " has accepted invite for party " + partyID);
         } else {
-            Bukkit.getPlayer(pendingInvites.get(pendingPlayer))
-                    .sendMessage(PartyChat.MESSAGE_PREFIX + player + " has denied the invite.");
-            Bukkit.getPlayer(pendingPlayer).sendMessage(PartyChat.MESSAGE_PREFIX + "You denied the party invite.");
+            ChatUtils.sendInfoMessage(Bukkit.getPlayer(pendingInvites.get(pendingPlayer)), player + " ha rechazado la invitación.");
+            ChatUtils.sendInfoMessage(Bukkit.getPlayer(pendingPlayer), "Has rechazado la invitación correctamente.");
             partyChat.logger.info(player + " has denied invite for party " + partyID);
         }
         pendingInvites.remove(pendingPlayer);
@@ -270,7 +267,7 @@ public class PartyManagement {
         for (Object partyMember : partyMembers) {
             UUID uuid = UUID.fromString((String) partyMember);
             if (Bukkit.getPlayer(uuid) != null) {
-                Bukkit.getPlayer(uuid).sendMessage(PartyChat.MESSAGE_PREFIX + message);
+                ChatUtils.sendMessage(Bukkit.getPlayer(uuid), message);
             }
         }
     }
@@ -330,8 +327,8 @@ public class PartyManagement {
         trusted.put(player.toString());
         jsonObject.put("trusted", trusted);
         writeFile(partyFile, jsonObject);
-        String trustedPlayer = Bukkit.getPlayer(player).getName();
-        sendPartyMessage(trustedPlayer + " has become a trusted member.", partyID);
+        String trustedPlayer = Bukkit.getPlayer(player).getDisplayName();
+        sendPartyMessage(trustedPlayer + " ahora es un miembro autorizado.", partyID);
         partyChat.logger.info(trustedPlayer + " is now a trusted player of " + partyID);
     }
 
@@ -374,7 +371,7 @@ public class PartyManagement {
         }
         jsonObject.put("trusted", trusted);
         writeFile(partyFile, jsonObject);
-        sendPartyMessage(Bukkit.getPlayer(player).getName() + " has been removed as a trusted member.", partyID);
+        sendPartyMessage(Bukkit.getPlayer(player).getName() + " ya no es un miembro autorizado.", partyID);
         String trustedPlayer = Bukkit.getPlayer(player).getName();
         partyChat.logger.info(trustedPlayer + " is no longer a trusted player of " + partyID);
     }

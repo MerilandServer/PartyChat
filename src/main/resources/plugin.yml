@@ -8,6 +8,8 @@ description: A simple party chat plugin.
 commands:
   party:
     description: The main party command.
+    permission: party.use
   pc:
     description: Send private party messages.
     aliases: [p]
+    permission: party.use

@@ -18,6 +18,7 @@
 package lol.hyper.partychat.events;
 
 import lol.hyper.partychat.PartyChat;
+import lol.hyper.partychat.tools.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -53,7 +54,7 @@ public class ChatEvents implements Listener {
                 playerMessage = ChatColor.GREEN + playerMessage;
             }
 
-            String finalMessage = "<" + player.getName() + "> " + playerMessage;
+            String finalMessage = "&d" + player.getName() + "&f:&7 " + playerMessage;
             partyChat.partyManagement.sendPartyMessage(finalMessage, partyChat.partyManagement.lookupParty(player.getUniqueId()));
             partyChat.logger.info("[" + partyChat.partyManagement.lookupParty(player.getUniqueId()) + "] " + finalMessage);
         }
