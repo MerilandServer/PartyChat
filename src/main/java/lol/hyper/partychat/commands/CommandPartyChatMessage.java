@@ -73,18 +73,18 @@ public class CommandPartyChatMessage implements TabExecutor {
             return true;
         }
         if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-            ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+            ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
             return true;
         }
         String arg = args[0];
         if (arg.equalsIgnoreCase("on") || arg.equalsIgnoreCase("off")) {
             if (arg.equalsIgnoreCase("on")) {
                 partyChatEnabled.add(player.getUniqueId());
-                ChatUtils.sendInfoMessage(player, "Chat privado de party activado. Los mensajes que envíes a continuación solo los leerán los miembros de la party.");
+                ChatUtils.sendInfoMessage(player, "Conversación privada activada. Los mensajes que envíes a continuación solo los leerán los miembros de la Conversación.");
             }
             if (arg.equalsIgnoreCase("off")) {
                 partyChatEnabled.remove(player.getUniqueId());
-                ChatUtils.sendInfoMessage(player, "Chat privado de party desactivado. Los mensajes que envíes a continuación serán públicos.");
+                ChatUtils.sendInfoMessage(player, "Conversación privada desactivada. Los mensajes que envíes a continuación serán públicos.");
             }
         } else {
             ChatUtils.sendErrorMessage(player, "Error: Usa /pc on/off");

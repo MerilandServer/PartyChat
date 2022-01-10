@@ -99,12 +99,12 @@ public class PartyManagement {
         pendingInvites.put(receiver, sender);
         Player receiverPlayer = Bukkit.getPlayer(receiver);
         Player senderPlayer = Bukkit.getPlayer(sender);
-        ChatUtils.sendInfoMessage(receiverPlayer, "&6" + senderPlayer.getDisplayName() + "&9 te ha invitado a una party.");
+        ChatUtils.sendInfoMessage(receiverPlayer, "&6" + senderPlayer.getDisplayName() + "&9 te ha invitado a una Conversación.");
         ChatUtils.sendInfoMessage(receiverPlayer, "Únete con &a/party accept&9. Cancela con &a/party deny");
         ChatUtils.sendInfoMessage(senderPlayer, "Invitación enviada correctamente");
         partyChat.logger.info(
                 senderPlayer.getName() + " sent an invite to " + receiverPlayer.getName() + " for party " + partyID);
-        sendPartyMessage(senderPlayer.getDisplayName() + " ha invitado a " + receiverPlayer.getDisplayName() + ".", partyID);
+        sendPartyMessage("&7&o"+senderPlayer.getDisplayName() + " ha invitado a " + receiverPlayer.getDisplayName() + ".", partyID);
     }
 
     /**
@@ -118,7 +118,7 @@ public class PartyManagement {
         String partyID = lookupParty(pendingInvites.get(pendingPlayer));
         if (answer) {
             addPlayerToParty(pendingPlayer, partyID);
-            sendPartyMessage(player + " se ha unido a la party", partyID);
+            sendPartyMessage("&7&o" + player + " se ha unido a la Conversación", partyID);
             partyChat.logger.info(player + " has accepted invite for party " + partyID);
         } else {
             ChatUtils.sendInfoMessage(Bukkit.getPlayer(pendingInvites.get(pendingPlayer)), player + " ha rechazado la invitación.");
@@ -328,7 +328,7 @@ public class PartyManagement {
         jsonObject.put("trusted", trusted);
         writeFile(partyFile, jsonObject);
         String trustedPlayer = Bukkit.getPlayer(player).getDisplayName();
-        sendPartyMessage(trustedPlayer + " ahora es un miembro autorizado.", partyID);
+        sendPartyMessage("&7&0" + trustedPlayer + " ahora es un miembro autorizado.", partyID);
         partyChat.logger.info(trustedPlayer + " is now a trusted player of " + partyID);
     }
 
@@ -371,7 +371,7 @@ public class PartyManagement {
         }
         jsonObject.put("trusted", trusted);
         writeFile(partyFile, jsonObject);
-        sendPartyMessage(Bukkit.getPlayer(player).getName() + " ya no es un miembro autorizado.", partyID);
+        sendPartyMessage("&7&o" + Bukkit.getPlayer(player).getName() + " ya no es un miembro autorizado.", partyID);
         String trustedPlayer = Bukkit.getPlayer(player).getName();
         partyChat.logger.info(trustedPlayer + " is no longer a trusted player of " + partyID);
     }

@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 
 public final class PartyChat extends JavaPlugin {
 
-    public static final String MESSAGE_PREFIX = "&f[&6Party&f] ";
+    public static final String MESSAGE_PREFIX = "&f[&6Hermes&f] ";
     public final Path partyFolder = Paths.get(this.getDataFolder() + File.separator + "parties");
     public final Logger logger = this.getLogger();
 

@@ -78,17 +78,17 @@ public class CommandParty implements TabExecutor {
             case "help":
                 ChatUtils.sendInfoMessage(player, "--------------------------------------------");
                 ChatUtils.sendInfoMessage(player, "/party help &7Muestra este menú.");
-                ChatUtils.sendInfoMessage(player, "/party create &7Crea una party.");
-                ChatUtils.sendInfoMessage(player, "/party invite <nick> &7Invita a un miembro a la party. Solo para líder.");
+                ChatUtils.sendInfoMessage(player, "/party create &7Crea una Conversación.");
+                ChatUtils.sendInfoMessage(player, "/party invite <nick> &7Invita a un miembro a la Conversación. Solo para el líder.");
                 ChatUtils.sendInfoMessage(player, "/party accept/deny &7Acepta o deniega una invitación.");
-                ChatUtils.sendInfoMessage(player, "/party kick <nick> &7Expulsa a un miembro de la party. Solo para líder.");
-                ChatUtils.sendInfoMessage(player, "/party leave &7Abandona la party.");
-                ChatUtils.sendInfoMessage(player, "/party disband &7Elimina la party. Solo para líder.");
-                ChatUtils.sendInfoMessage(player, "/party info &7Información sobre la party.");
-                ChatUtils.sendInfoMessage(player, "/party transfer <nick> &7Cambia el líder de la party. Solo para líder.");
+                ChatUtils.sendInfoMessage(player, "/party kick <nick> &7Expulsa a un miembro de la Conversación. Solo para el líder.");
+                ChatUtils.sendInfoMessage(player, "/party leave &7Abandona la Conversación.");
+                ChatUtils.sendInfoMessage(player, "/party disband &7Elimina la Conversación. Solo para el líder.");
+                ChatUtils.sendInfoMessage(player, "/party info &7Información sobre la Conversación.");
+                ChatUtils.sendInfoMessage(player, "/party transfer <nick> &7Cambia el líder de la Conversación. Solo para el líder.");
                 ChatUtils.sendInfoMessage(player, "/party trust <nick> &7Permite a un miembro a invitar y expulsar otros miembros.");
-                ChatUtils.sendInfoMessage(player, "/party untrust <nick> &7Elimina permisos a un miembro de la party.");
-                ChatUtils.sendInfoMessage(player, "/pc <on/off> &7Activa o desactiva el chat de la party.");
+                ChatUtils.sendInfoMessage(player, "/party untrust <nick> &7Elimina permisos a un miembro de la Conversación.");
+                ChatUtils.sendInfoMessage(player, "/pc <on/off> &7Activa o desactiva la Conversación.");
                 ChatUtils.sendInfoMessage(player, "--------------------------------------------");
                 break;
             case "invite": {
@@ -97,7 +97,7 @@ public class CommandParty implements TabExecutor {
                     return true;
                 }
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 if (partyChat.partyManagement.isPlayerOwner(player.getUniqueId())
@@ -112,22 +112,22 @@ public class CommandParty implements TabExecutor {
                         return true;
                     }
                     if (partyChat.partyManagement.lookupParty(playerToInvite.getUniqueId()) != null) {
-                        ChatUtils.sendErrorMessage(player, "&4" + args[1] +  " &cya forma parte de una party.");
+                        ChatUtils.sendErrorMessage(player, "&4" + args[1] +  " &cya forma parte de una Conversación.");
                         return true;
                     }
                     String partyID = partyChat.partyManagement.lookupParty(player.getUniqueId());
                     partyChat.partyManagement.invitePlayer(playerToInvite.getUniqueId(), player.getUniqueId(), partyID);
                     return true;
                 }
-                ChatUtils.sendErrorMessage(player, "No puedes invitar a miembros a la party. Solo pueden el líder y miembros autorizados.");
+                ChatUtils.sendErrorMessage(player, "No puedes invitar a miembros a la Conversación. Solo pueden el líder y miembros autorizados.");
                 return true;
             }
             case "create": {
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
                     partyChat.partyManagement.createParty(player.getUniqueId());
-                    ChatUtils.sendInfoMessage(player, "Party creada correctamente.");
+                    ChatUtils.sendInfoMessage(player, "Conversación creada correctamente.");
                 } else {
-                    ChatUtils.sendErrorMessage(player, "Ya formas parte de una party.");
+                    ChatUtils.sendErrorMessage(player, "Ya formas parte de una Conversación.");
                 }
                 return true;
             }
@@ -149,32 +149,32 @@ public class CommandParty implements TabExecutor {
             }
             case "leave": {
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 if (partyChat.partyManagement.isPlayerOwner(player.getUniqueId())) {
-                    ChatUtils.sendErrorMessage(player, "El líder de la party no puede abandonarla. Puedes eliminarla con &4/party disband&c." +
+                    ChatUtils.sendErrorMessage(player, "El líder de la Conversación no puede abandonarla. Puedes eliminarla con &4/party disband&c." +
                             " También puedes transferir el liderazgo con &4/party transfer <nick>");
                     return true;
                 }
                 Player playerLeaving = (Player) sender;
                 String partyID = partyChat.partyManagement.lookupParty(playerLeaving.getUniqueId());
-                partyChat.partyManagement.sendPartyMessage(playerLeaving.getName() + " ha abandonado la party.", partyID);
+                partyChat.partyManagement.sendPartyMessage(playerLeaving.getName() + " ha abandonado la Conversación.", partyID);
                 partyChat.partyManagement.removePlayerFromParty(player.getUniqueId(), partyID);
                 return true;
             }
             case "disband": {
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 if (!partyChat.partyManagement.isPlayerOwner(player.getUniqueId())) {
-                    ChatUtils.sendErrorMessage(player, "No eres el líder de la party. Usa &4/party leave&c si quieres abandonarla.");
+                    ChatUtils.sendErrorMessage(player, "No eres el líder de la Conversación. Usa &4/party leave&c si quieres abandonarla.");
                     return true;
                 }
                 Player playerLeaving = (Player) sender;
                 String partyID = partyChat.partyManagement.lookupParty(playerLeaving.getUniqueId());
-                partyChat.partyManagement.sendPartyMessage("La party ha sido eliminada.", partyID);
+                partyChat.partyManagement.sendPartyMessage("La Conversación ha sido eliminada.", partyID);
                 partyChat.partyManagement.deleteParty(partyID);
                 return true;
             }
@@ -184,7 +184,7 @@ public class CommandParty implements TabExecutor {
                     return true;
                 }
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 if (partyChat.partyManagement.isPlayerOwner(player.getUniqueId())
@@ -197,11 +197,11 @@ public class CommandParty implements TabExecutor {
                     String partyIDKickingPlayer = partyChat.partyManagement.lookupParty(playerToKick.getUniqueId());
                     String partyID = partyChat.partyManagement.lookupParty(player.getUniqueId());
                     if (!partyID.equals(partyIDKickingPlayer)) {
-                        ChatUtils.sendErrorMessage(player, args[1] + " no forma parte de tu party.");
+                        ChatUtils.sendErrorMessage(player, args[1] + " no forma parte de tu Conversación.");
                         return true;
                     }
                     if (partyChat.partyManagement.isPlayerOwner(playerToKick.getUniqueId())) {
-                        ChatUtils.sendErrorMessage(player, "No puedes expulsar al líder de la party");
+                        ChatUtils.sendErrorMessage(player, "No puedes expulsar al líder de la Conversación");
                         return true;
                     }
                     if (player.getUniqueId().equals(playerToKick.getUniqueId())) {
@@ -209,12 +209,12 @@ public class CommandParty implements TabExecutor {
                         return true;
                     }
                     partyChat.partyManagement.sendPartyMessage(
-                            playerToKick.getDisplayName() + " ha sido expulsado de la party por " + Bukkit.getPlayer(player.getUniqueId()).getDisplayName() + ".", partyID);
+                            playerToKick.getDisplayName() + " ha sido expulsado de la Conversación por " + Bukkit.getPlayer(player.getUniqueId()).getDisplayName() + ".", partyID);
                     partyChat.partyManagement.removePlayerFromParty(playerToKick.getUniqueId(), partyID);
                     return true;
                 }
 
-                ChatUtils.sendErrorMessage(player, "No tienes permisos para expulsar miembros de la party.");
+                ChatUtils.sendErrorMessage(player, "No tienes permisos para expulsar miembros de la Conversación.");
                 return true;
             }
             case "transfer": {
@@ -223,7 +223,7 @@ public class CommandParty implements TabExecutor {
                     return true;
                 }
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 if (partyChat.partyManagement.isPlayerOwner(player.getUniqueId())) {
@@ -234,16 +234,16 @@ public class CommandParty implements TabExecutor {
                     Player newOwner = Bukkit.getPlayerExact(args[1]);
                     String partyID = partyChat.partyManagement.lookupParty(player.getUniqueId());
                     partyChat.partyManagement.sendPartyMessage(
-                            newOwner.getName() + " es el nuevo líder de la party.", partyID);
+                            newOwner.getName() + " es el nuevo líder de la Conversación.", partyID);
                     partyChat.partyManagement.updatePartyOwner(newOwner.getUniqueId(), partyID);
                     return true;
                 }
-                ChatUtils.sendErrorMessage(player, "Solo el líder de la party tiene permisos para ejecutar este comando.");
+                ChatUtils.sendErrorMessage(player, "Solo el líder de la Conversación tiene permisos para ejecutar este comando.");
                 return true;
             }
             case "info": {
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 Bukkit.getPlayer(player.getUniqueId())
@@ -284,7 +284,7 @@ public class CommandParty implements TabExecutor {
                     return true;
                 }
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 if (partyChat.partyManagement.isPlayerOwner(player.getUniqueId())) {
@@ -296,11 +296,11 @@ public class CommandParty implements TabExecutor {
                     String partyID = partyChat.partyManagement.lookupParty(player.getUniqueId());
                     String partyIDTrusted = partyChat.partyManagement.lookupParty(memberToTrust.getUniqueId());
                     if (!partyID.equals(partyIDTrusted)) {
-                        ChatUtils.sendErrorMessage(player, args[1] + " no forma parte de tu party.");
+                        ChatUtils.sendErrorMessage(player, args[1] + " no forma parte de tu Conversación.");
                         return true;
                     }
                     if (player.getUniqueId().equals(memberToTrust.getUniqueId())) {
-                        ChatUtils.sendErrorMessage(player, "No puedes darte permisos, ya eres el líder de la party.");
+                        ChatUtils.sendErrorMessage(player, "No puedes darte permisos, ya eres el líder de la Conversación.");
                         return true;
                     }
                     if (partyChat.partyManagement.checkTrusted(memberToTrust.getUniqueId())) {
@@ -311,7 +311,7 @@ public class CommandParty implements TabExecutor {
                     return true;
                 }
 
-                ChatUtils.sendErrorMessage(player, "Solo el líder de la party tiene permisos para ejecutar este comando.");
+                ChatUtils.sendErrorMessage(player, "Solo el líder de la Conversación tiene permisos para ejecutar este comando.");
                 return true;
             }
             case "untrust": {
@@ -320,7 +320,7 @@ public class CommandParty implements TabExecutor {
                     return true;
                 }
                 if (partyChat.partyManagement.lookupParty(player.getUniqueId()) == null) {
-                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna party. Usa /party create para crear una.");
+                    ChatUtils.sendErrorMessage(player, "No formas parte de ninguna Conversación. Usa /party create para crear una.");
                     return true;
                 }
                 if (partyChat.partyManagement.isPlayerOwner(player.getUniqueId())) {
@@ -332,11 +332,11 @@ public class CommandParty implements TabExecutor {
                     String partyID = partyChat.partyManagement.lookupParty(player.getUniqueId());
                     String partyIDTrusted = partyChat.partyManagement.lookupParty(memberToTrust.getUniqueId());
                     if (!partyID.equals(partyIDTrusted)) {
-                        ChatUtils.sendErrorMessage(player, args[1] + " no forma parte de tu party.");
+                        ChatUtils.sendErrorMessage(player, args[1] + " no forma parte de tu Conversación.");
                         return true;
                     }
                     if (player.getUniqueId().equals(memberToTrust.getUniqueId())) {
-                        ChatUtils.sendErrorMessage(player, "No puedes quitarte permisos, ya eres el líder de la party.");
+                        ChatUtils.sendErrorMessage(player, "No puedes quitarte permisos, ya eres el líder de la Conversación.");
                         return true;
                     }
                     if (!partyChat.partyManagement.checkTrusted(memberToTrust.getUniqueId())) {
@@ -346,7 +346,7 @@ public class CommandParty implements TabExecutor {
                     partyChat.partyManagement.removeTrustedPlayer(memberToTrust.getUniqueId());
                     return true;
                 }
-                ChatUtils.sendErrorMessage(player, "Solo el líder de la party tiene permisos para ejecutar este comando.");
+                ChatUtils.sendErrorMessage(player, "Solo el líder de la Conversación tiene permisos para ejecutar este comando.");
                 return true;
             }
             default: {
